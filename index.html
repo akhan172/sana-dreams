@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sana Dreams — Premium Cars</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="brand">
+        <div class="logo">🚗</div>
+        <div>
+          <div class="title">SANA DREAMS</div>
+          <div class="subtitle">PREMIUM CARS</div>
+        </div>
+      </div>
+
+      <div class="nav-links">
+        <button data-target="home">Home</button>
+        <button data-target="inventory">Buy Car</button>
+        <button data-target="sell">Sell Car</button>
+        <button data-target="about">About</button>
+      </div>
+
+      <div class="nav-actions">
+        <a class="phone" href="tel:+919876543210">Call</a>
+        <a class="wa" href="https://wa.me/919876543210" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+    </div>
+  </nav>
+
+  <header id="home" class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1>Drive Your <span class="accent">Dreams</span> Today</h1>
+      <p>Buy, sell, and exchange certified used cars with confidence. Best prices guaranteed.</p>
+      <div class="hero-cta">
+        <button data-target="inventory" class="btn primary">Find a Car</button>
+        <button data-target="sell" class="btn outline">Sell My Car</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="inventory" class="section inventory-section">
+      <div class="container">
+        <h2>Featured <span class="accent">Inventory</span></h2>
+        <p class="lead">Browse our collection of quality inspected vehicles. We offer the best deals in town.</p>
+
+        <div id="carsGrid" class="grid"></div>
+      </div>
+    </section>
+
+    <section id="about" class="section about-section">
+      <div class="container about-grid">
+        <div>
+          <h2>Why Choose <span class="accent">Sana Dreams</span>?</h2>
+          <p>Our rigorous 150-point inspection ensures every car meets our high standards before it hits the lot.</p>
+
+          <ul class="features">
+            <li><strong>Certified Quality:</strong> Every car passes strict checks.</li>
+            <li><strong>Fair Price Guarantee:</strong> Transparent pricing, no hidden fees.</li>
+            <li><strong>7-Day Return Policy:</strong> Love it or return it. No questions asked.</li>
+          </ul>
+        </div>
+
+        <div class="stats">
+          <div class="stat-box">
+            <div class="big">10+</div>
+            <div>YEARS EXPERIENCE</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="sell" class="section sell-section">
+      <div class="container sell-grid">
+        <div class="sell-info">
+          <h2>Sell Your Car Instantly</h2>
+          <p>Get a fair market offer in minutes. We handle the paperwork, you get the cash.</p>
+          <ul>
+            <li>Instant Valuation</li>
+            <li>Free Inspection</li>
+            <li>Same Day Payment</li>
+          </ul>
+        </div>
+
+        <div class="sell-form card">
+          <label>Make & Model
+            <input id="f_make" type="text" placeholder="e.g. 2018 Honda Civic" />
+          </label>
+
+          <div class="row">
+            <label>Year
+              <input id="f_year" type="text" placeholder="2020" />
+            </label>
+            <label>Mileage
+              <input id="f_mileage" type="text" placeholder="45000" />
+            </label>
+          </div>
+
+          <label>Your Name
+            <input id="f_name" type="text" placeholder="John Doe" />
+          </label>
+
+          <label>Phone Number
+            <input id="f_phone" type="tel" placeholder="+91 98765 43210" />
+          </label>
+
+          <button id="sellBtn" class="btn primary full">Get My Offer</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <div class="brand-inline">
+          <div class="logo">🚗</div>
+          <div>
+            <div class="title">SANA DREAMS</div>
+            <div class="subtitle">PREMIUM CARS</div>
+          </div>
+        </div>
+        <p class="muted">Your trusted partner in buying and selling premium used vehicles.</p>
+      </div>
+
+      <div>
+        <h4>Quick Links</h4>
+        <nav class="footer-links">
+          <a href="#inventory">Inventory</a>
+          <a href="#sell">Sell Your Car</a>
+          <a href="#about">About</a>
+        </nav>
+      </div>
+
+      <div>
+        <h4>Contact Us</h4>
+        <p class="muted">123 Auto Mile Road, City Center<br/>+1 (555) 123-4567<br/>sales@sanadreams.com</p>
+      </div>
+    </div>
+
+    <div class="copyright">© 2024 Sana Dreams. All rights reserved.</div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
