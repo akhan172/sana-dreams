@@ -1,205 +1,1378 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>60-Day Grind Tracker — Abrar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
-  .plan { padding: 1rem 0; font-family: var(--font-sans); }
-  .phase { margin-bottom: 2rem; }
-  .phase-header { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
-  .phase-badge { padding: 3px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; }
-  .p1 .phase-badge { background: #EEEDFE; color: #3C3489; }
-  .p2 .phase-badge { background: #E1F5EE; color: #085041; }
-  .p3 .phase-badge { background: #FAEEDA; color: #633806; }
-  .phase-title { font-size: 16px; font-weight: 500; color: var(--color-text-primary); }
-  .phase-sub { font-size: 13px; color: var(--color-text-secondary); margin-left: auto; }
-  .week-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .week-card { border: 1px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 14px; background: var(--color-background-secondary); }
-  .week-label { font-size: 11px; font-weight: 500; color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
-  .week-title { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 10px; }
-  .task-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 5px; }
-  .task { font-size: 12px; color: var(--color-text-secondary); display: flex; gap: 7px; line-height: 1.5; }
-  .task::before { content: "·"; color: var(--color-text-tertiary); flex-shrink: 0; margin-top: 1px; }
-  .daily-box { border: 1px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 14px; background: var(--color-background-secondary); margin-bottom: 10px; }
-  .daily-title { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 10px; }
-  .daily-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-  .time-block { border-radius: var(--border-radius-md); padding: 10px; }
-  .tb-morning { background: #EEEDFE; }
-  .tb-afternoon { background: #E1F5EE; }
-  .tb-evening { background: #FAEEDA; }
-  .tb-label { font-size: 10px; font-weight: 500; margin-bottom: 4px; }
-  .tb-morning .tb-label { color: #3C3489; }
-  .tb-afternoon .tb-label { color: #085041; }
-  .tb-evening .tb-label { color: #633806; }
-  .tb-content { font-size: 11px; color: var(--color-text-secondary); line-height: 1.5; }
-  .milestone { border-left: 3px solid; padding: 10px 14px; border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; margin-bottom: 8px; font-size: 12px; }
-  .m-purple { border-color: #7F77DD; background: #EEEDFE; color: #3C3489; }
-  .m-teal { border-color: #1D9E75; background: #E1F5EE; color: #085041; }
-  .m-amber { border-color: #BA7517; background: #FAEEDA; color: #633806; }
-  .surgery-banner { background: #FCEBEB; border: 1px solid #F09595; border-radius: var(--border-radius-lg); padding: 12px 16px; margin-bottom: 1.5rem; font-size: 13px; color: #791F1F; display: flex; gap: 10px; align-items: center; }
-  .section-label { font-size: 11px; font-weight: 500; color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: 0.06em; margin: 1.5rem 0 0.75rem; }
-  .apply-box { border: 1px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 14px; background: var(--color-background-secondary); }
-  .apply-row { display: flex; align-items: flex-start; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--color-border-tertiary); }
-  .apply-row:last-child { border-bottom: none; padding-bottom: 0; }
-  .apply-tag { font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 10px; flex-shrink: 0; }
-  .tag-now { background: #EEEDFE; color: #3C3489; }
-  .tag-week { background: #E1F5EE; color: #085041; }
-  .apply-text { font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; }
-  @media (max-width: 500px) { .week-grid { grid-template-columns: 1fr; } .daily-grid { grid-template-columns: 1fr; } }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface2: #1a1a1a;
+    --surface3: #222222;
+    --border: #2a2a2a;
+    --border2: #333333;
+    --text: #f0f0f0;
+    --text2: #888888;
+    --text3: #555555;
+    --accent: #7fff6e;
+    --accent2: #3dd9b3;
+    --amber: #ffb347;
+    --red: #ff6b6b;
+    --purple: #a78bfa;
+    --blue: #60a5fa;
+    --font-display: 'Syne', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-mono);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* HEADER */
+  .header {
+    border-bottom: 1px solid var(--border);
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 100;
+  }
+
+  .header-left h1 {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+  }
+
+  .header-left p {
+    font-size: 0.7rem;
+    color: var(--text3);
+    margin-top: 2px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .day-counter {
+    text-align: right;
+  }
+
+  .day-counter .day-num {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .day-counter .day-label {
+    font-size: 0.65rem;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    background: var(--bg);
+    overflow-x: auto;
+  }
+
+  .tab {
+    padding: 0.75rem 1.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text3);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s;
+    white-space: nowrap;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+  }
+
+  .tab:hover { color: var(--text2); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* MAIN */
+  .main { padding: 1.5rem 2rem; max-width: 1100px; margin: 0 auto; }
+
+  /* STATS ROW */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+  }
+
+  .stat-card .stat-val {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .stat-card .stat-lbl {
+    font-size: 0.65rem;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .stat-green .stat-val { color: var(--accent); }
+  .stat-amber .stat-val { color: var(--amber); }
+  .stat-blue .stat-val { color: var(--blue); }
+  .stat-purple .stat-val { color: var(--purple); }
+  .stat-teal .stat-val { color: var(--accent2); }
+
+  /* PROGRESS BAR */
+  .progress-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.6rem;
+  }
+
+  .progress-header span {
+    font-size: 0.7rem;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .progress-header strong {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    color: var(--accent);
+  }
+
+  .progress-track {
+    height: 6px;
+    background: var(--surface3);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 3px;
+    transition: width 0.5s ease;
+  }
+
+  /* SURGERY BANNER */
+  .surgery-banner {
+    background: #1a0f0f;
+    border: 1px solid #3d1f1f;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.72rem;
+    color: #ff9999;
+    margin-bottom: 1.5rem;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  /* SECTION HEADER */
+  .section-header {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text3);
+    margin-bottom: 0.75rem;
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-header::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* TODAY PANEL */
+  .today-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .block-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .block-card-header {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .block-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .block-card-header .block-title {
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  .block-card-header .block-time {
+    margin-left: auto;
+    font-size: 0.65rem;
+    color: var(--text3);
+  }
+
+  .block-tasks { padding: 0.75rem 1rem; }
+
+  .task-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 0.45rem 0;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+  }
+
+  .task-item:last-child { border-bottom: none; }
+
+  .task-check {
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--border2);
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+  }
+
+  .task-item.done .task-check {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .task-item.done .task-check::after {
+    content: '✓';
+    font-size: 10px;
+    color: #000;
+    font-weight: 700;
+  }
+
+  .task-text {
+    font-size: 0.72rem;
+    color: var(--text2);
+    line-height: 1.5;
+  }
+
+  .task-item.done .task-text {
+    color: var(--text3);
+    text-decoration: line-through;
+  }
+
+  /* PLAN VIEW */
+  .phase-block {
+    margin-bottom: 2rem;
+  }
+
+  .phase-label {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.04em;
+  }
+
+  .phase-p1 { background: #1a1a3a; color: var(--purple); }
+  .phase-p2 { background: #0d2a1a; color: var(--accent); }
+  .phase-p3 { background: #2a1a0a; color: var(--amber); }
+
+  .weeks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .week-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .week-card-header {
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .week-num {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text3);
+  }
+
+  .week-title {
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-top: 2px;
+  }
+
+  .week-pct {
+    font-size: 0.72rem;
+    color: var(--accent);
+  }
+
+  .week-items { padding: 0.75rem 1rem; }
+
+  .week-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 0.35rem 0;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    font-size: 0.7rem;
+    color: var(--text2);
+    line-height: 1.5;
+  }
+
+  .week-item:last-child { border-bottom: none; }
+
+  .week-check {
+    width: 14px;
+    height: 14px;
+    border: 1px solid var(--border2);
+    border-radius: 2px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+  }
+
+  .week-item.done .week-check {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .week-item.done .week-check::after {
+    content: '✓';
+    font-size: 9px;
+    color: #000;
+    font-weight: 700;
+  }
+
+  .week-item.done span { color: var(--text3); text-decoration: line-through; }
+
+  .milestone-bar {
+    border-left: 3px solid;
+    padding: 8px 12px;
+    border-radius: 0 4px 4px 0;
+    font-size: 0.7rem;
+    margin-top: 0.75rem;
+    line-height: 1.5;
+  }
+
+  .m-purple { border-color: var(--purple); background: #1a1a3a; color: #c4b5fd; }
+  .m-green  { border-color: var(--accent); background: #0d2a1a; color: #86efac; }
+  .m-amber  { border-color: var(--amber); background: #2a1a0a; color: #fcd34d; }
+
+  /* APPLICATIONS TAB */
+  .app-form {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr auto;
+    gap: 0.6rem;
+    align-end: center;
+  }
+
+  .app-form input, .app-form select {
+    background: var(--surface3);
+    border: 1px solid var(--border2);
+    border-radius: 4px;
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    padding: 0.5rem 0.75rem;
+    outline: none;
+    transition: border 0.15s;
+  }
+
+  .app-form input:focus, .app-form select:focus {
+    border-color: var(--accent);
+  }
+
+  .app-form input::placeholder { color: var(--text3); }
+
+  .btn {
+    background: var(--accent);
+    color: #000;
+    border: none;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    letter-spacing: 0.04em;
+  }
+
+  .btn:hover { opacity: 0.85; }
+  .btn-sm { padding: 0.3rem 0.6rem; font-size: 0.65rem; }
+  .btn-danger { background: var(--red); }
+
+  .app-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.72rem;
+  }
+
+  .app-table th {
+    text-align: left;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text3);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .app-table td {
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--text2);
+    vertical-align: middle;
+  }
+
+  .app-table tr:last-child td { border-bottom: none; }
+
+  .status-badge {
+    font-size: 0.62rem;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .s-applied   { background: #1a1a3a; color: var(--purple); }
+  .s-screening { background: #0d2a1a; color: var(--accent); }
+  .s-interview { background: #1a1a00; color: #ffd700; }
+  .s-offer     { background: #001a0d; color: #00ff88; }
+  .s-rejected  { background: #1a0808; color: var(--red); }
+  .s-ghosted   { background: #1a1a1a; color: var(--text3); }
+
+  /* NOTES TAB */
+  .notes-area {
+    width: 100%;
+    min-height: 400px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    padding: 1rem;
+    resize: vertical;
+    outline: none;
+    line-height: 1.8;
+  }
+
+  .notes-area:focus { border-color: var(--accent); }
+
+  /* HIDDEN */
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* HEAT GRID (streak) */
+  .heat-grid {
+    display: flex;
+    gap: 3px;
+    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+  }
+
+  .heat-cell {
+    width: 14px;
+    height: 14px;
+    border-radius: 2px;
+    background: var(--surface3);
+    cursor: pointer;
+    transition: all 0.1s;
+  }
+
+  .heat-cell.active { background: var(--accent); opacity: 0.9; }
+  .heat-cell.today { outline: 1px solid var(--accent); }
+
+  /* DONT DO */
+  .dont-list { display: flex; flex-direction: column; gap: 0.5rem; }
+
+  .dont-item {
+    display: flex;
+    gap: 10px;
+    padding: 0.6rem 0.75rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.72rem;
+    align-items: flex-start;
+  }
+
+  .dont-tag {
+    font-size: 0.6rem;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+  }
+
+  .tag-skip { background: #1a0808; color: var(--red); }
+  .tag-defer { background: #0d2a1a; color: var(--accent); }
+
+  .dont-text { color: var(--text2); line-height: 1.5; }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    .header { padding: 1rem; }
+    .main { padding: 1rem; }
+    .tabs { padding: 0 1rem; }
+    .app-form { grid-template-columns: 1fr 1fr; }
+    .app-form input:nth-child(3), .app-form select { grid-column: span 2; }
+    .day-counter .day-num { font-size: 1.4rem; }
+  }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    padding: 1.5rem;
+    max-width: 420px;
+    width: 90%;
+  }
+
+  .modal h3 {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    color: var(--accent);
+  }
+
+  .modal-field { margin-bottom: 0.75rem; }
+  .modal-field label { font-size: 0.65rem; color: var(--text3); display: block; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .modal-field input, .modal-field select, .modal-field textarea {
+    width: 100%;
+    background: var(--surface3);
+    border: 1px solid var(--border2);
+    border-radius: 4px;
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    padding: 0.5rem 0.75rem;
+    outline: none;
+  }
+
+  .modal-field textarea { min-height: 80px; resize: vertical; }
+  .modal-actions { display: flex; gap: 0.5rem; margin-top: 1rem; justify-content: flex-end; }
+  .btn-ghost { background: transparent; border: 1px solid var(--border2); color: var(--text2); }
+  .btn-ghost:hover { background: var(--surface2); opacity: 1; }
+
+  .empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text3);
+    font-size: 0.75rem;
+  }
+
+  .empty-state .empty-icon { font-size: 2rem; margin-bottom: 0.5rem; opacity: 0.3; }
 </style>
-<div class="plan">
-  <div class="surgery-banner">
-    <span>⚑</span>
-    <span>Surgery in July — this plan ends at Day 60 (end of June). Goal: have at least one offer or active final-round interview before surgery.</span>
-  </div>
+</head>
+<body>
 
-  <div class="section-label">Daily schedule — every day</div>
-  <div class="daily-box">
-    <div class="daily-title">6 hours split across three blocks</div>
-    <div class="daily-grid">
-      <div class="time-block tb-morning">
-        <div class="tb-label">Morning · 2h</div>
-        <div class="tb-content">DSA — 1 medium LeetCode problem. Review yesterday's if wrong. Java/Kotlin only.</div>
-      </div>
-      <div class="time-block tb-afternoon">
-        <div class="tb-label">Afternoon · 2.5h</div>
-        <div class="tb-content">Main track — Coding Shuttle (system design) or KodeKloud (Docker/Linux). One focused topic per day.</div>
-      </div>
-      <div class="time-block tb-evening">
-        <div class="tb-label">Evening · 1.5h</div>
-        <div class="tb-content">Apply to 2 jobs + LinkedIn update OR mock interview practice + system design reading.</div>
-      </div>
-    </div>
+<div class="header">
+  <div class="header-left">
+    <h1>60-DAY GRIND</h1>
+    <p>Abrar Khan · Backend → Hired</p>
   </div>
-
-  <div class="section-label">Phase 1 — weeks 1–2 · Foundation reset</div>
-  <div class="phase p1">
-    <div class="week-grid">
-      <div class="week-card">
-        <div class="week-label">Week 1</div>
-        <div class="week-title">LinkedIn + DSA restart</div>
-        <ul class="task-list">
-          <li class="task">Write Zeazonz LinkedIn description today (copy from resume)</li>
-          <li class="task">Add all projects to LinkedIn with live links</li>
-          <li class="task">Add skills: Kafka, Redis, Socket.IO, AWS, Docker</li>
-          <li class="task">Set Open to Work (recruiters only)</li>
-          <li class="task">LeetCode: arrays, hashmaps, sliding window — 7 mediums</li>
-          <li class="task">KodeKloud: Linux fundamentals module — start here</li>
-          <li class="task">Apply to 5 remote backend roles on Wellfound</li>
-        </ul>
-      </div>
-      <div class="week-card">
-        <div class="week-label">Week 2</div>
-        <div class="week-title">System design intro + apply</div>
-        <ul class="task-list">
-          <li class="task">Coding Shuttle: system design basics — scalability, load balancing, caching</li>
-          <li class="task">LeetCode: trees, binary search — 7 mediums</li>
-          <li class="task">KodeKloud: Docker fundamentals — containerise your own Spring Boot app</li>
-          <li class="task">Apply to 10 more remote roles — LinkedIn + Naukri remote filter</li>
-          <li class="task">Make selfhosted-cloud repo public with a proper README</li>
-        </ul>
-      </div>
-    </div>
-    <div style="margin-top:10px" class="milestone m-purple">End of week 2: LinkedIn complete, 15 applications sent, Docker basics done, LeetCode streak restarted</div>
-  </div>
-
-  <div class="section-label">Phase 2 — weeks 3–5 · Core skill depth</div>
-  <div class="phase p2">
-    <div class="week-grid">
-      <div class="week-card">
-        <div class="week-label">Week 3</div>
-        <div class="week-title">System design — messaging systems</div>
-        <ul class="task-list">
-          <li class="task">Coding Shuttle: design a chat system — directly maps to your Lineup work</li>
-          <li class="task">Coding Shuttle: design a notification service — maps to your Kafka work</li>
-          <li class="task">LeetCode: linked lists, stacks, queues — 7 mediums</li>
-          <li class="task">KodeKloud: Kubernetes basics — pods, deployments, services</li>
-          <li class="task">Apply 10 more. Follow up on week 1–2 applications</li>
-        </ul>
-      </div>
-      <div class="week-card">
-        <div class="week-label">Week 4</div>
-        <div class="week-title">System design — databases + caching</div>
-        <ul class="task-list">
-          <li class="task">Coding Shuttle: design rate limiter — you built quota system, connect the dots</li>
-          <li class="task">Coding Shuttle: design URL shortener, leaderboard</li>
-          <li class="task">LeetCode: graphs, BFS/DFS — 7 mediums</li>
-          <li class="task">KodeKloud: Kubernetes — deployments, scaling, health checks</li>
-          <li class="task">Write PayTrack README properly, make it interview-ready</li>
-        </ul>
-      </div>
-      <div class="week-card">
-        <div class="week-label">Week 5</div>
-        <div class="week-title">Mock interviews + cloud basics</div>
-        <ul class="task-list">
-          <li class="task">First mock system design interview — use Pramp or a peer</li>
-          <li class="task">LeetCode: dynamic programming — 7 mediums (you have 50 DP already, refresh)</li>
-          <li class="task">KodeKloud: AWS basics — EC2, S3, IAM (you used these, now learn them properly)</li>
-          <li class="task">Coding Shuttle: design a payment system or auth service</li>
-          <li class="task">Apply 10 more. Should have 45+ applications out by end of week 5</li>
-        </ul>
-      </div>
-      <div class="week-card">
-        <div class="week-label">Ongoing</div>
-        <div class="week-title">Job application targets</div>
-        <ul class="task-list">
-          <li class="task">Wellfound — remote backend Java/Kotlin roles</li>
-          <li class="task">LinkedIn — "backend developer" + "remote" + India</li>
-          <li class="task">Naukri — Spring Boot + Kafka + remote filter</li>
-          <li class="task">Target: Series A/B funded startups, fintech, SaaS</li>
-          <li class="task">Ask range: ₹8–12 LPA confidently</li>
-        </ul>
-      </div>
-    </div>
-    <div style="margin-top:10px" class="milestone m-teal">End of week 5: 45+ applications sent, system design conversational, in at least 2–3 interview pipelines, K8s basics done</div>
-  </div>
-
-  <div class="section-label">Phase 3 — weeks 6–8 · Interview sprint</div>
-  <div class="phase p3">
-    <div class="week-grid">
-      <div class="week-card">
-        <div class="week-label">Week 6–7</div>
-        <div class="week-title">Full interview prep mode</div>
-        <ul class="task-list">
-          <li class="task">2 mock interviews per week — coding + system design</li>
-          <li class="task">LeetCode: hard problems — 2 per week, not more</li>
-          <li class="task">Prepare STAR stories: Kafka broadcast server, media pipeline, quota system</li>
-          <li class="task">KodeKloud: CI/CD basics — GitHub Actions, basic pipeline</li>
-          <li class="task">Keep applying — 5 per week minimum even while interviewing</li>
-        </ul>
-      </div>
-      <div class="week-card">
-        <div class="week-label">Week 8 (pre-surgery)</div>
-        <div class="week-title">Close open loops</div>
-        <ul class="task-list">
-          <li class="task">Push hard on any active interview conversations</li>
-          <li class="task">Communicate surgery timeline honestly to promising companies — most will accommodate</li>
-          <li class="task">Aim to have offer or final round before July starts</li>
-          <li class="task">If no offer yet: remote contract work as bridge income during recovery</li>
-          <li class="task">NutriTrack — add 2–3 features, reshare on LinkedIn for visibility</li>
-        </ul>
-      </div>
-    </div>
-    <div style="margin-top:10px" class="milestone m-amber">End of day 60: offer in hand or active final rounds. If not, have contract/freelance lined up as bridge through recovery.</div>
-  </div>
-
-  <div class="section-label">What NOT to do in these 60 days</div>
-  <div class="apply-box">
-    <div class="apply-row">
-      <span class="apply-tag tag-now">skip</span>
-      <span class="apply-text">Learning new languages or frameworks from scratch. You have Kotlin/Java/Spring — use them.</span>
-    </div>
-    <div class="apply-row">
-      <span class="apply-tag tag-now">skip</span>
-      <span class="apply-text">Cloud certification prep. AWS free tier + KodeKloud basics is enough for interviews at this level.</span>
-    </div>
-    <div class="apply-row">
-      <span class="apply-tag tag-now">skip</span>
-      <span class="apply-text">Solving LeetCode hards daily. You have 39 already. Mediums win screening rounds.</span>
-    </div>
-    <div class="apply-row">
-      <span class="apply-tag tag-week">defer</span>
-      <span class="apply-text">SSC prep. Not for 60 days. Revisit only if zero traction after genuine effort.</span>
-    </div>
-    <div class="apply-row">
-      <span class="apply-tag tag-week">defer</span>
-      <span class="apply-text">Building new projects. Polish what you have. Recruiters want depth, not breadth.</span>
+  <div class="header-right">
+    <div class="day-counter">
+      <div class="day-num" id="dayNum">1</div>
+      <div class="day-label">of 60 days</div>
     </div>
   </div>
 </div>
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('today')">Today</button>
+  <button class="tab" onclick="switchTab('plan')">Full Plan</button>
+  <button class="tab" onclick="switchTab('applications')">Applications</button>
+  <button class="tab" onclick="switchTab('streak')">Streak</button>
+  <button class="tab" onclick="switchTab('notes')">Notes</button>
+</div>
+
+<div class="main">
+
+  <!-- TODAY TAB -->
+  <div id="tab-today" class="tab-content active">
+
+    <div class="stats-row">
+      <div class="stat-card stat-green">
+        <div class="stat-val" id="statDay">1</div>
+        <div class="stat-lbl">Current day</div>
+      </div>
+      <div class="stat-card stat-amber">
+        <div class="stat-val" id="statDaysLeft">59</div>
+        <div class="stat-lbl">Days left</div>
+      </div>
+      <div class="stat-card stat-blue">
+        <div class="stat-val" id="statApps">0</div>
+        <div class="stat-lbl">Applications</div>
+      </div>
+      <div class="stat-card stat-purple">
+        <div class="stat-val" id="statLeet">314</div>
+        <div class="stat-lbl">LeetCode solved</div>
+      </div>
+      <div class="stat-card stat-teal">
+        <div class="stat-val" id="statStreak">0</div>
+        <div class="stat-lbl">Day streak</div>
+      </div>
+    </div>
+
+    <div class="progress-wrap">
+      <div class="progress-header">
+        <span>Overall progress</span>
+        <strong id="progressPct">0%</strong>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill" style="width:0%"></div>
+      </div>
+    </div>
+
+    <div class="surgery-banner">
+      ⚑ Surgery in July — goal is offer or final-round interview before Day 60. Every day counts.
+    </div>
+
+    <div class="section-header">Morning · 2h — DSA</div>
+    <div class="today-grid">
+      <div class="block-card">
+        <div class="block-card-header">
+          <div class="block-dot" style="background:var(--purple)"></div>
+          <span class="block-title" style="color:var(--purple)">Morning Block</span>
+          <span class="block-time">2 hours</span>
+        </div>
+        <div class="block-tasks" id="morning-tasks">
+          <div class="task-item" onclick="toggleTask(this)" data-id="m1">
+            <div class="task-check"></div>
+            <div class="task-text">Solve 1 medium LeetCode problem in Java/Kotlin</div>
+          </div>
+          <div class="task-item" onclick="toggleTask(this)" data-id="m2">
+            <div class="task-check"></div>
+            <div class="task-text">Review yesterday's wrong solution (if any)</div>
+          </div>
+          <div class="task-item" onclick="toggleTask(this)" data-id="m3">
+            <div class="task-check"></div>
+            <div class="task-text">Update LeetCode count below ↓</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block-card">
+        <div class="block-card-header">
+          <div class="block-dot" style="background:var(--accent)"></div>
+          <span class="block-title" style="color:var(--accent)">Afternoon Block</span>
+          <span class="block-time">2.5 hours</span>
+        </div>
+        <div class="block-tasks" id="afternoon-tasks">
+          <div class="task-item" onclick="toggleTask(this)" data-id="a1">
+            <div class="task-check"></div>
+            <div class="task-text">Coding Shuttle: system design topic (1 focused topic)</div>
+          </div>
+          <div class="task-item" onclick="toggleTask(this)" data-id="a2">
+            <div class="task-check"></div>
+            <div class="task-text">KodeKloud: current module (Linux / Docker / K8s / AWS)</div>
+          </div>
+          <div class="task-item" onclick="toggleTask(this)" data-id="a3">
+            <div class="task-check"></div>
+            <div class="task-text">Write 3 bullet points of what you learned today</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block-card">
+        <div class="block-card-header">
+          <div class="block-dot" style="background:var(--amber)"></div>
+          <span class="block-title" style="color:var(--amber)">Evening Block</span>
+          <span class="block-time">1.5 hours</span>
+        </div>
+        <div class="block-tasks" id="evening-tasks">
+          <div class="task-item" onclick="toggleTask(this)" data-id="e1">
+            <div class="task-check"></div>
+            <div class="task-text">Apply to 2 remote backend roles (Wellfound / LinkedIn / Naukri)</div>
+          </div>
+          <div class="task-item" onclick="toggleTask(this)" data-id="e2">
+            <div class="task-check"></div>
+            <div class="task-text">Follow up on any pending applications</div>
+          </div>
+          <div class="task-item" onclick="toggleTask(this)" data-id="e3">
+            <div class="task-check"></div>
+            <div class="task-text">System design reading OR mock interview practice</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-header">Quick update</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0.75rem;margin-bottom:1.5rem;">
+      <div class="block-card" style="padding:1rem;">
+        <div style="font-size:0.65rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;">LeetCode total solved</div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <input type="number" id="leetInput" min="314" style="background:var(--surface3);border:1px solid var(--border2);border-radius:4px;color:var(--text);font-family:var(--font-mono);font-size:0.85rem;padding:6px 10px;width:90px;outline:none;" placeholder="314">
+          <button class="btn btn-sm" onclick="saveLeet()">Save</button>
+        </div>
+      </div>
+      <div class="block-card" style="padding:1rem;">
+        <div style="font-size:0.65rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;">Today's note / blocker</div>
+        <div style="display:flex;gap:8px;align-items:flex-start;">
+          <input type="text" id="todayNote" style="background:var(--surface3);border:1px solid var(--border2);border-radius:4px;color:var(--text);font-family:var(--font-mono);font-size:0.72rem;padding:6px 10px;flex:1;outline:none;" placeholder="What's on your mind...">
+          <button class="btn btn-sm" onclick="saveTodayNote()">Save</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-header">What NOT to do</div>
+    <div class="dont-list">
+      <div class="dont-item"><span class="dont-tag tag-skip">skip</span><span class="dont-text">Learning new languages/frameworks from scratch — you have Kotlin/Java/Spring, use them</span></div>
+      <div class="dont-item"><span class="dont-tag tag-skip">skip</span><span class="dont-text">Cloud certification prep — AWS free tier + KodeKloud basics is enough for interviews right now</span></div>
+      <div class="dont-item"><span class="dont-tag tag-skip">skip</span><span class="dont-text">LeetCode hards daily — you have 39 already, mediums win screening rounds</span></div>
+      <div class="dont-item"><span class="dont-tag tag-defer">defer</span><span class="dont-text">SSC prep — revisit only if zero traction after genuine effort in IT</span></div>
+      <div class="dont-item"><span class="dont-tag tag-defer">defer</span><span class="dont-text">Building new projects — polish what you have, recruiters want depth not breadth</span></div>
+    </div>
+
+  </div>
+
+  <!-- PLAN TAB -->
+  <div id="tab-plan" class="tab-content">
+
+    <div class="phase-block">
+      <span class="phase-label phase-p1">Phase 1 — Weeks 1–2 · Foundation reset</span>
+      <div class="weeks-grid">
+        <div class="week-card">
+          <div class="week-card-header">
+            <div>
+              <div class="week-num">Week 1</div>
+              <div class="week-title">LinkedIn + DSA restart</div>
+            </div>
+            <span class="week-pct" id="w1pct">0%</span>
+          </div>
+          <div class="week-items" id="week1">
+            <div class="week-item" onclick="toggleWeekTask(this,'w1_1')"><div class="week-check"></div><span>Write Zeazonz LinkedIn description — do this TODAY</span></div>
+            <div class="week-item" onclick="toggleWeekTask(this,'w1_2')"><div class="week-check"></div><span>Add all projects to LinkedIn with live links (NutriTrack, PayTrack, ChatApp)</span></div>
+            <div class="week-item" onclick="toggleWeekTask(this,'w1_3')"><div class="week-check"></div><span>Add skills to LinkedIn: Kafka, Redis, Socket.IO, AWS, Docker, PostgreSQL, JWT</span></div>
+            <div class="week-item" onclick="toggleWeekTask(this,'w1_4')"><div class="week-check"></div><span>Set Open to Work (recruiters only, not public)</span></div>
+            <div class="week-item" onclick="toggleWeekTask(this,'w1_5')"><div class="week-check"></div><span>LeetCode: arrays, hashmaps, sliding window — 7 mediums this week</span></div>
+            <div class="week-item" onclick="toggleWeekTask(this,'w1_6')"><div class="week-check"></div><span>KodeKloud: Linux fundamentals module — complete it this week</span></div>
+            <div class="week-item" onclick="toggleWeekTask(this,'w1_7')"><div class="week-check"></div><span>Apply to 5 remote backend roles on Wellfound (Kotlin / Java / Spring Boot)</span></div>
+          </div>
+        </div>
+        <div class="week-card">
+          <div class="week-card-header">
+            <div>
+              <div class="week-num">Week 2</div>
+              <div class="week-title">System design intro + apply</div>
+            </div>
+            <span class="week-pct" id="w2pct">0%</span>
+          </div>
+          <div class="week-items" id="week2">
+            <div class="week-item" onclick="toggleWeekTask(this,'w2_1')"><div class="week-check"></div><span>Coding Shuttle: system design basics — scalability, load balancing, caching</span></div>
+            <div class="week-item" onclick="toggleWeekTask(this,'w2_2')"><div class="week-check"></div><span>LeetCode: trees, binary search — 7 mediums this week</span></div>
+            <div class="week-item" onclick="toggleWeekTask(this,'w2_3')"><div class="week-check"></div><span>KodeKloud: Docker fundamentals — containerise your own Spring Boot app</span></div>
+            <div class="week-item" onclick="toggleWeekTask(this,'w2_4')"><div class="week-check"></div><span>Apply to 10 more remote roles — LinkedIn + Naukri remote filter</span></div>
+            <div class="week-item" onclick="toggleWeekTask(this,'w2_5')"><div class="week-check"></div><span>Make selfhosted-cloud repo public with a proper README explaining your setup</span></div>
+            <div class="week-item" onclick="toggleWeekTask(this,'w2_6')"><div class="week-check"></div><span>Request Zeazonz ex-manager for LinkedIn recommendation</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="milestone-bar m-purple">✦ Milestone week 2: LinkedIn complete · 15 applications sent · Docker basics done · LeetCode streak restarted</div>
+    </div>
+
+    <div class="phase-block">
+      <span class="phase-label phase-p2">Phase 2 — Weeks 3–5 · Core skill depth</span>
+      <div class="weeks-grid">
+        <div class="week-card">
+          <div class="week-card-header">
+            <div>
+              <div class="week-num">Week 3</div>
+              <div class="week-title">System design — messaging systems</div>
+            </div>
+            <span class="week-pct" id="w3pct">0%</span>
+          </div>
+          <div class="week-items" id="week3">
+            <div class="week-item" onclick="toggleWeekTask(this,'w3_1')"><div class="week-check"></div><span>Coding Shuttle: design a chat system — connects directly to your Lineup work</span></div>
+            <div class="week-item" onclick="toggleWeekTask(this,'w3_2')"><div class="week-check"></div><span>Coding Shuttle: design a notification/push service — maps to your Kafka work</span></div>
+            <div class="week-item" onclick="toggleWeekTask(this,'w3_3')"><div class="week-check"></div><span>LeetCode: linked lists, stacks, queues — 7 mediums</span></div>
+            <div class="week-item" onclick="toggleWeekTask(this,'w3_4')"><div class="week-check"></div><span>KodeKloud: Kubernetes basics — pods, deployments, services, namespaces</span></div>
+            <div class="week-item" onclick="toggleWeekTask(this,'w3_5')"><div class="week-check"></div><span>Apply 10 more. Follow up on week 1–2 applications that got no response</span></div>
+          </div>
+        </div>
+        <div class="week-card">
+          <div class="week-card-header">
+            <div>
+              <div class="week-num">Week 4</div>
+              <div class="week-title">System design — databases + caching</div>
+            </div>
+            <span class="week-pct" id="w4pct">0%</span>
+          </div>
+          <div class="week-items" id="week4">
+            <div class="week-item" onclick="toggleWeekTask(this,'w4_1')"><div class="week-check"></div><span>Coding Shuttle: design rate limiter — you built the quota system, connect the dots</span></div>
+            <div class="week-item" onclick="toggleWeekTask(this,'w4_2')"><div class="week-check"></div><span>Coding Shuttle: design URL shortener + leaderboard (standard interview questions)</span></div>
+            <div class="week-item" onclick="toggleWeekTask(this,'w4_3')"><div class="week-check"></div><span>LeetCode: graphs, BFS/DFS — 7 mediums</span></div>
+            <div class="week-item" onclick="toggleWeekTask(this,'w4_4')"><div class="week-check"></div><span>KodeKloud: Kubernetes — rolling deployments, health checks, config maps</span></div>
+            <div class="week-item" onclick="toggleWeekTask(this,'w4_5')"><div class="week-check"></div><span>Write PayTrack README properly — architecture diagram, API docs, how to run</span></div>
+          </div>
+        </div>
+        <div class="week-card">
+          <div class="week-card-header">
+            <div>
+              <div class="week-num">Week 5</div>
+              <div class="week-title">Mock interviews + cloud basics</div>
+            </div>
+            <span class="week-pct" id="w5pct">0%</span>
+          </div>
+          <div class="week-items" id="week5">
+            <div class="week-item" onclick="toggleWeekTask(this,'w5_1')"><div class="week-check"></div><span>First mock system design interview — use Pramp or find a peer</span></div>
+            <div class="week-item" onclick="toggleWeekTask(this,'w5_2')"><div class="week-check"></div><span>LeetCode: dynamic programming refresh — 7 mediums (you have 50 DP, refresh patterns)</span></div>
+            <div class="week-item" onclick="toggleWeekTask(this,'w5_3')"><div class="week-check"></div><span>KodeKloud: AWS basics — EC2, S3, IAM, VPC (you used these, now know them properly)</span></div>
+            <div class="week-item" onclick="toggleWeekTask(this,'w5_4')"><div class="week-check"></div><span>Coding Shuttle: design a payment system or auth/session service</span></div>
+            <div class="week-item" onclick="toggleWeekTask(this,'w5_5')"><div class="week-check"></div><span>Apply 10 more. Should have 45+ applications total by end of this week</span></div>
+          </div>
+        </div>
+        <div class="week-card">
+          <div class="week-card-header">
+            <div>
+              <div class="week-num">Ongoing</div>
+              <div class="week-title">Application targets</div>
+            </div>
+          </div>
+          <div class="week-items">
+            <div class="week-item" style="cursor:default;"><div class="week-check" style="border-color:var(--accent2);background:transparent;"></div><span style="color:var(--accent2)">Wellfound — remote backend Java/Kotlin roles</span></div>
+            <div class="week-item" style="cursor:default;"><div class="week-check" style="border-color:var(--accent2);background:transparent;"></div><span style="color:var(--accent2)">LinkedIn — "backend developer" + "remote" + India filter</span></div>
+            <div class="week-item" style="cursor:default;"><div class="week-check" style="border-color:var(--accent2);background:transparent;"></div><span style="color:var(--accent2)">Naukri — Spring Boot + Kafka + remote filter</span></div>
+            <div class="week-item" style="cursor:default;"><div class="week-check" style="border-color:var(--accent2);background:transparent;"></div><span style="color:var(--accent2)">Target: Series A/B funded startups, fintech, SaaS products</span></div>
+            <div class="week-item" style="cursor:default;"><div class="week-check" style="border-color:var(--accent2);background:transparent;"></div><span style="color:var(--accent2)">Ask range: ₹8–12 LPA — say it confidently, don't undersell</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="milestone-bar m-green">✦ Milestone week 5: 45+ applications sent · system design conversational · 2–3 interview pipelines · K8s basics done</div>
+    </div>
+
+    <div class="phase-block">
+      <span class="phase-label phase-p3">Phase 3 — Weeks 6–8 · Interview sprint</span>
+      <div class="weeks-grid">
+        <div class="week-card">
+          <div class="week-card-header">
+            <div>
+              <div class="week-num">Week 6–7</div>
+              <div class="week-title">Full interview prep mode</div>
+            </div>
+            <span class="week-pct" id="w6pct">0%</span>
+          </div>
+          <div class="week-items" id="week6">
+            <div class="week-item" onclick="toggleWeekTask(this,'w6_1')"><div class="week-check"></div><span>2 mock interviews per week — one coding, one system design</span></div>
+            <div class="week-item" onclick="toggleWeekTask(this,'w6_2')"><div class="week-check"></div><span>LeetCode: 2 hard problems per week max (not more — mediums still priority)</span></div>
+            <div class="week-item" onclick="toggleWeekTask(this,'w6_3')"><div class="week-check"></div><span>Prepare STAR stories: Kafka broadcast server, WhatsApp media pipeline, quota system</span></div>
+            <div class="week-item" onclick="toggleWeekTask(this,'w6_4')"><div class="week-check"></div><span>KodeKloud: CI/CD basics — GitHub Actions pipeline from push to deploy</span></div>
+            <div class="week-item" onclick="toggleWeekTask(this,'w6_5')"><div class="week-check"></div><span>Keep applying — 5 per week minimum even while in active interviews</span></div>
+          </div>
+        </div>
+        <div class="week-card">
+          <div class="week-card-header">
+            <div>
+              <div class="week-num">Week 8</div>
+              <div class="week-title">Pre-surgery close</div>
+            </div>
+            <span class="week-pct" id="w7pct">0%</span>
+          </div>
+          <div class="week-items" id="week7">
+            <div class="week-item" onclick="toggleWeekTask(this,'w7_1')"><div class="week-check"></div><span>Push hard on any active conversations — ask for timelines, follow up assertively</span></div>
+            <div class="week-item" onclick="toggleWeekTask(this,'w7_2')"><div class="week-check"></div><span>Tell promising companies: "I have a planned medical procedure in mid-July, can join [date]"</span></div>
+            <div class="week-item" onclick="toggleWeekTask(this,'w7_3')"><div class="week-check"></div><span>Aim to have offer or final round before July starts — this is the hard goal</span></div>
+            <div class="week-item" onclick="toggleWeekTask(this,'w7_4')"><div class="week-check"></div><span>If no offer: explore remote freelance/contract as bridge income during recovery</span></div>
+            <div class="week-item" onclick="toggleWeekTask(this,'w7_5')"><div class="week-check"></div><span>NutriTrack — add 2–3 features, reshare on LinkedIn for visibility and engagement</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="milestone-bar m-amber">✦ End of day 60: offer in hand or active final rounds. If not, contract/freelance lined up as bridge through recovery.</div>
+    </div>
+
+  </div>
+
+  <!-- APPLICATIONS TAB -->
+  <div id="tab-applications" class="tab-content">
+
+    <div class="app-form">
+      <input type="text" id="appCompany" placeholder="Company name">
+      <input type="text" id="appRole" placeholder="Role / JD link">
+      <select id="appStatus">
+        <option value="applied">Applied</option>
+        <option value="screening">Screening</option>
+        <option value="interview">Interview</option>
+        <option value="offer">Offer 🎉</option>
+        <option value="rejected">Rejected</option>
+        <option value="ghosted">Ghosted</option>
+      </select>
+      <button class="btn" onclick="addApplication()">+ Add</button>
+    </div>
+
+    <div id="appList"></div>
+
+  </div>
+
+  <!-- STREAK TAB -->
+  <div id="tab-streak" class="tab-content">
+
+    <div class="section-header">60-day activity grid</div>
+    <div class="heat-grid" id="heatGrid"></div>
+    <div style="font-size:0.65rem;color:var(--text3);margin-bottom:1.5rem;">Click any cell to mark that day as active</div>
+
+    <div class="section-header">Today's check-in</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0.75rem;margin-bottom:1.5rem;">
+      <div class="block-card" style="padding:1rem;">
+        <div style="font-size:0.65rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Did you do DSA today?</div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-sm" onclick="markHabit('dsa',true)" id="dsaYes">✓ Yes</button>
+          <button class="btn btn-sm btn-danger" onclick="markHabit('dsa',false)" id="dsaNo">✗ No</button>
+        </div>
+      </div>
+      <div class="block-card" style="padding:1rem;">
+        <div style="font-size:0.65rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Did you apply today?</div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-sm" onclick="markHabit('apply',true)" id="applyYes">✓ Yes</button>
+          <button class="btn btn-sm btn-danger" onclick="markHabit('apply',false)" id="applyNo">✗ No</button>
+        </div>
+      </div>
+      <div class="block-card" style="padding:1rem;">
+        <div style="font-size:0.65rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Did you study today?</div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-sm" onclick="markHabit('study',true)" id="studyYes">✓ Yes</button>
+          <button class="btn btn-sm btn-danger" onclick="markHabit('study',false)" id="studyNo">✗ No</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-header">Habit log</div>
+    <div id="habitLog" style="font-size:0.72rem;color:var(--text2);"></div>
+
+  </div>
+
+  <!-- NOTES TAB -->
+  <div id="tab-notes" class="tab-content">
+    <div class="section-header">Personal notes · saved automatically</div>
+    <textarea class="notes-area" id="notesArea" placeholder="Write anything here — learnings, blockers, wins, thoughts, links to resources...&#10;&#10;This auto-saves every few seconds."></textarea>
+    <div style="font-size:0.65rem;color:var(--text3);margin-top:6px;" id="notesSaved">Not saved yet</div>
+  </div>
+
+</div>
+
+<!-- Edit Application Modal -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal">
+    <h3>Edit application</h3>
+    <div class="modal-field">
+      <label>Company</label>
+      <input type="text" id="editCompany">
+    </div>
+    <div class="modal-field">
+      <label>Role / Link</label>
+      <input type="text" id="editRole">
+    </div>
+    <div class="modal-field">
+      <label>Status</label>
+      <select id="editStatus">
+        <option value="applied">Applied</option>
+        <option value="screening">Screening</option>
+        <option value="interview">Interview</option>
+        <option value="offer">Offer 🎉</option>
+        <option value="rejected">Rejected</option>
+        <option value="ghosted">Ghosted</option>
+      </select>
+    </div>
+    <div class="modal-field">
+      <label>Notes</label>
+      <textarea id="editNotes" placeholder="Interview date, contact, next steps..."></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-danger btn-sm" onclick="deleteApp()" style="margin-right:auto;">Delete</button>
+      <button class="btn" onclick="saveEdit()">Save</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const START_DATE = localStorage.getItem('startDate') || (() => {
+  const d = new Date().toISOString().split('T')[0];
+  localStorage.setItem('startDate', d);
+  return d;
+})();
+
+function getDayNum() {
+  const start = new Date(START_DATE);
+  const now = new Date();
+  const diff = Math.floor((now - start) / 86400000) + 1;
+  return Math.max(1, Math.min(60, diff));
+}
+
+function switchTab(name) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+/* ---- TASKS ---- */
+function getTodayKey() { return new Date().toISOString().split('T')[0]; }
+
+function toggleTask(el) {
+  const id = el.dataset.id;
+  const key = 'task_' + getTodayKey() + '_' + id;
+  const done = !el.classList.contains('done');
+  el.classList.toggle('done', done);
+  localStorage.setItem(key, done ? '1' : '0');
+  updateProgress();
+}
+
+function loadTodayTasks() {
+  const day = getTodayKey();
+  document.querySelectorAll('.task-item').forEach(el => {
+    const key = 'task_' + day + '_' + el.dataset.id;
+    if (localStorage.getItem(key) === '1') el.classList.add('done');
+  });
+  updateProgress();
+}
+
+function updateProgress() {
+  const day = getTodayKey();
+  const all = document.querySelectorAll('.task-item');
+  let done = 0;
+  all.forEach(el => {
+    if (localStorage.getItem('task_' + day + '_' + el.dataset.id) === '1') done++;
+  });
+  const pct = Math.round((done / all.length) * 100);
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+/* ---- WEEK TASKS ---- */
+function toggleWeekTask(el, id) {
+  const done = !el.classList.contains('done');
+  el.classList.toggle('done', done);
+  localStorage.setItem('wtask_' + id, done ? '1' : '0');
+  updateWeekPcts();
+}
+
+function loadWeekTasks() {
+  document.querySelectorAll('.week-item[onclick]').forEach(el => {
+    const fn = el.getAttribute('onclick');
+    const match = fn.match(/'([^']+)'\)/);
+    if (match) {
+      const id = match[1];
+      if (localStorage.getItem('wtask_' + id) === '1') el.classList.add('done');
+    }
+  });
+  updateWeekPcts();
+}
+
+function updateWeekPcts() {
+  ['w1','w2','w3','w4','w5','w6','w7'].forEach(wk => {
+    const el = document.getElementById(wk);
+    if (!el) return;
+    const items = el.querySelectorAll('.week-item[onclick]');
+    let done = 0;
+    items.forEach(i => { if (i.classList.contains('done')) done++; });
+    const pct = items.length ? Math.round(done / items.length * 100) : 0;
+    const pctEl = document.getElementById(wk + 'pct');
+    if (pctEl) pctEl.textContent = pct + '%';
+  });
+}
+
+/* ---- LEET ---- */
+function saveLeet() {
+  const val = parseInt(document.getElementById('leetInput').value) || 314;
+  localStorage.setItem('leetCount', val);
+  document.getElementById('statLeet').textContent = val;
+}
+
+function loadLeet() {
+  const val = localStorage.getItem('leetCount') || '314';
+  document.getElementById('statLeet').textContent = val;
+  document.getElementById('leetInput').value = val;
+}
+
+/* ---- TODAY NOTE ---- */
+function saveTodayNote() {
+  const val = document.getElementById('todayNote').value;
+  localStorage.setItem('todayNote_' + getTodayKey(), val);
+}
+
+function loadTodayNote() {
+  const val = localStorage.getItem('todayNote_' + getTodayKey()) || '';
+  document.getElementById('todayNote').value = val;
+}
+
+/* ---- APPLICATIONS ---- */
+let applications = JSON.parse(localStorage.getItem('applications') || '[]');
+let editingId = null;
+
+function addApplication() {
+  const company = document.getElementById('appCompany').value.trim();
+  const role = document.getElementById('appRole').value.trim();
+  const status = document.getElementById('appStatus').value;
+  if (!company) return;
+  const app = { id: Date.now(), company, role, status, notes: '', date: getTodayKey() };
+  applications.push(app);
+  saveApps();
+  renderApps();
+  document.getElementById('appCompany').value = '';
+  document.getElementById('appRole').value = '';
+  updateStats();
+}
+
+function saveApps() { localStorage.setItem('applications', JSON.stringify(applications)); }
+
+const statusLabel = { applied:'Applied', screening:'Screening', interview:'Interview', offer:'Offer 🎉', rejected:'Rejected', ghosted:'Ghosted' };
+
+function renderApps() {
+  const el = document.getElementById('appList');
+  if (!applications.length) {
+    el.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div>No applications yet — start applying!</div>';
+    return;
+  }
+  const sorted = [...applications].reverse();
+  el.innerHTML = '<table class="app-table"><thead><tr><th>Company</th><th>Role</th><th>Status</th><th>Date</th><th></th></tr></thead><tbody>' +
+    sorted.map(a => `<tr>
+      <td style="color:var(--text);font-weight:500">${a.company}</td>
+      <td>${a.role || '—'}</td>
+      <td><span class="status-badge s-${a.status}">${statusLabel[a.status]}</span></td>
+      <td style="color:var(--text3)">${a.date}</td>
+      <td><button class="btn btn-sm" style="background:transparent;border:1px solid var(--border2);color:var(--text2);" onclick="openEdit(${a.id})">Edit</button></td>
+    </tr>`).join('') + '</tbody></table>';
+}
+
+function openEdit(id) {
+  editingId = id;
+  const a = applications.find(x => x.id === id);
+  document.getElementById('editCompany').value = a.company;
+  document.getElementById('editRole').value = a.role || '';
+  document.getElementById('editStatus').value = a.status;
+  document.getElementById('editNotes').value = a.notes || '';
+  document.getElementById('editModal').classList.add('open');
+}
+
+function closeModal() { document.getElementById('editModal').classList.remove('open'); editingId = null; }
+
+function saveEdit() {
+  const a = applications.find(x => x.id === editingId);
+  if (!a) return;
+  a.company = document.getElementById('editCompany').value;
+  a.role = document.getElementById('editRole').value;
+  a.status = document.getElementById('editStatus').value;
+  a.notes = document.getElementById('editNotes').value;
+  saveApps(); renderApps(); closeModal(); updateStats();
+}
+
+function deleteApp() {
+  applications = applications.filter(x => x.id !== editingId);
+  saveApps(); renderApps(); closeModal(); updateStats();
+}
+
+/* ---- STREAK / HEAT ---- */
+function buildHeatGrid() {
+  const grid = document.getElementById('heatGrid');
+  const today = getDayNum();
+  grid.innerHTML = '';
+  for (let i = 1; i <= 60; i++) {
+    const cell = document.createElement('div');
+    cell.className = 'heat-cell';
+    if (i === today) cell.classList.add('today');
+    if (localStorage.getItem('streak_day_' + i) === '1') cell.classList.add('active');
+    cell.title = 'Day ' + i;
+    cell.onclick = () => {
+      const key = 'streak_day_' + i;
+      const active = localStorage.getItem(key) === '1';
+      localStorage.setItem(key, active ? '0' : '1');
+      cell.classList.toggle('active');
+      updateStreak();
+    };
+    grid.appendChild(cell);
+  }
+  updateStreak();
+}
+
+function updateStreak() {
+  let streak = 0;
+  const today = getDayNum();
+  for (let i = today; i >= 1; i--) {
+    if (localStorage.getItem('streak_day_' + i) === '1') streak++;
+    else break;
+  }
+  document.getElementById('statStreak').textContent = streak;
+}
+
+function markHabit(type, val) {
+  const key = 'habit_' + getTodayKey() + '_' + type;
+  localStorage.setItem(key, val ? '1' : '0');
+  renderHabitLog();
+  if (val) {
+    const dayKey = 'streak_day_' + getDayNum();
+    const habits = ['dsa','apply','study'];
+    const allDone = habits.every(h => localStorage.getItem('habit_' + getTodayKey() + '_' + h) === '1');
+    if (allDone) { localStorage.setItem(dayKey, '1'); buildHeatGrid(); }
+  }
+}
+
+function renderHabitLog() {
+  const el = document.getElementById('habitLog');
+  const days = [];
+  for (let i = getDayNum(); i >= Math.max(1, getDayNum()-6); i--) {
+    const dateStr = new Date(new Date(START_DATE).getTime() + (i-1)*86400000).toISOString().split('T')[0];
+    const dsa = localStorage.getItem('habit_' + dateStr + '_dsa');
+    const apply = localStorage.getItem('habit_' + dateStr + '_apply');
+    const study = localStorage.getItem('habit_' + dateStr + '_study');
+    days.push(`<div style="display:flex;align-items:center;gap:12px;padding:6px 0;border-bottom:1px solid var(--border);">
+      <span style="color:var(--text3);font-size:0.65rem;min-width:60px;">Day ${i}</span>
+      <span style="${dsa==='1'?'color:var(--accent)':dsa==='0'?'color:var(--red)':'color:var(--text3)'}">DSA: ${dsa==='1'?'✓':dsa==='0'?'✗':'—'}</span>
+      <span style="${apply==='1'?'color:var(--accent)':apply==='0'?'color:var(--red)':'color:var(--text3)'}">Apply: ${apply==='1'?'✓':apply==='0'?'✗':'—'}</span>
+      <span style="${study==='1'?'color:var(--accent)':study==='0'?'color:var(--red)':'color:var(--text3)'}">Study: ${study==='1'?'✓':study==='0'?'✗':'—'}</span>
+    </div>`);
+  }
+  el.innerHTML = days.join('');
+}
+
+/* ---- NOTES ---- */
+let notesTimer;
+function initNotes() {
+  const area = document.getElementById('notesArea');
+  area.value = localStorage.getItem('grindNotes') || '';
+  area.addEventListener('input', () => {
+    clearTimeout(notesTimer);
+    notesTimer = setTimeout(() => {
+      localStorage.setItem('grindNotes', area.value);
+      document.getElementById('notesSaved').textContent = 'Saved ' + new Date().toLocaleTimeString();
+    }, 800);
+  });
+}
+
+/* ---- STATS ---- */
+function updateStats() {
+  const dayNum = getDayNum();
+  document.getElementById('dayNum').textContent = dayNum;
+  document.getElementById('statDay').textContent = dayNum;
+  document.getElementById('statDaysLeft').textContent = Math.max(0, 60 - dayNum);
+  document.getElementById('statApps').textContent = applications.length;
+}
+
+/* ---- INIT ---- */
+function init() {
+  updateStats();
+  loadTodayTasks();
+  loadWeekTasks();
+  loadLeet();
+  loadTodayNote();
+  renderApps();
+  buildHeatGrid();
+  renderHabitLog();
+  initNotes();
+}
+
+init();
+</script>
+</body>
+</html>
